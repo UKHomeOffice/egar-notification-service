@@ -1,0 +1,9 @@
+.vscode/launch.private.json
+
+export-secrets.sh
+message.log
+dump.rdb
+local-deployment.yml
+maildev-compose.yml
+
+\node_modules

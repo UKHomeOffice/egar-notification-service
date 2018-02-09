@@ -1,0 +1,30 @@
+notification-service:
+  container_name: ${EGAR_NOTIFICATION_SERVICE_CONTAINER}
+  image: local-notification-service:latest
+  external_links:
+  - ${MAILDEV_CONTAINER}:maildev
+  expose:
+  - "9229"
+  # Expose 8088 (docker network only) for other containers to see the REST api
+  - "8088"
+  # Export 2525 (docker network only) for Keycloak to send email over SMTP to
+  - "2525"
+  command:
+  - --log-level=debug
+  # To test with notify uncomment the following lines and comment the two below
+  #- --active-profiles=producer,listen-rest,listen-smtp,consumer,send-notify,send-smtp
+  #- --require-sent-by=smtp,notify
+  #- --send-notify-api-key=${SEND_NOTIFY_KEY}
+  #- --send-notify-whitelist=*@civica.co.uk
+  - --active-profiles=producer,listen-rest,listen-smtp,consumer,send-smtp
+  - --require-sent-by=smtp
+  # To test with SQS queues, uncomment the following lines and comment out '- --fake-queue=true'
+  # - --notification-request-queue-access-key-id=${NOTIFICATION_REQ_ACCESS_KEY}
+  #- --notification-request-queue-secret-key=${NOTIFICATION_REQ_SECRET_KEY}
+  #- --notification-request-queue-url=${NOTIFICATION_REQ_URL}
+  - --fake-queue=true
+  - --send-smtp-host=${MAILDEV_CONTAINER}
+  - --send-smtp-from:testing@notificationservice.co.uk
+  - --send-smtp-port:25
+  - --send-smtp-whitelist:*
+

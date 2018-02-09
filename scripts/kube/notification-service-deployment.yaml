@@ -1,0 +1,56 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: notification-service
+  name: notification-service
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: notification-service
+    spec:
+      containers:
+      - args:
+        - --log-level=info
+        - --active-profiles=producer,listen-rest,listen-smtp,consumer,send-notify,send-smtp
+        - --require-sent-by=smtp,notify
+        - --send-notify-api-key=$(EGAR_LIVE_KEY)
+        - --send-notify-whitelist=*@civica.co.uk,*@homeoffice.gsi.gov.uk,*@btinternet.com,*@gmail.com,*@googlemail.com,*@outlook.com
+        - --notification-request-queue-access-key-id=$(QUEUE_AC_KEY)
+        - --notification-request-queue-secret-key=$(QUEUE_SEC_KEY)
+        - --notification-request-queue-url=$(QUEUE_URL)
+        - --send-smtp-host=$(MAILDEV_SERVICE_HOST)
+        - --send-smtp-from:GAR2@homeoffice.gsi.gov.uk
+        - --send-smtp-port:25
+        - --send-smtp-whitelist:*
+        env:
+          - name: EGAR_LIVE_KEY
+            valueFrom:
+              secretKeyRef:
+                name: egar-notify-secret
+                key: egarlivekey
+          - name: QUEUE_AC_KEY
+            valueFrom:
+              secretKeyRef:
+                name: egar-notify-secret
+                key: queueackey
+          - name: QUEUE_SEC_KEY
+            valueFrom:
+              secretKeyRef:
+                name: egar-notify-secret
+                key: queueseckey
+          - name: QUEUE_URL
+            valueFrom:
+              secretKeyRef:
+                name: egar-notify-secret
+                key: queueurl
+        image: quay.io/ukhomeofficedigital/egar-notification-service-dev:latest
+        name: egar-notification-service-dev
+        resources: {}
+      restartPolicy: Always
+status: {}

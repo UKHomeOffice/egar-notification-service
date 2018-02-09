@@ -1,0 +1,6 @@
+${MAILDEV_CONTAINER}:
+  container_name: ${MAILDEV_CONTAINER}
+  image: djfarrelly/maildev:1.0.0-rc2
+  ports:
+  - "${MAILDEV_WEB_PORT}:80"
+  - "${MAILDEV_SMTP_PORT}:25"

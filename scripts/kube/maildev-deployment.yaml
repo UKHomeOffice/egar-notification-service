@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: maildev
+  name: maildev
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: maildev
+    spec:
+      containers:
+      - image: djfarrelly/maildev:1.0.0-rc2
+        name: maildev
+        ports:
+        - containerPort: 80
+        - containerPort: 25
+        resources: {}
+      restartPolicy: Always
+status: {}
