@@ -10,6 +10,8 @@ pipeline:
       - ./docker-build.sh egar-notification-service
   image_to_quay:
     image: docker:17.09.0-ce
+    secrets:
+      - docker_password
     privileged: false
     when:
       branch: [master, develop]
