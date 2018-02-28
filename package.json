@@ -10,12 +10,17 @@
     "test:lint": "eslint .",
     "test:mocha": "./node_modules/.bin/_mocha"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://bitbucket.org/egar-civica/egar-notification-service.git"
+  },
   "keywords": [
     "Notification",
     "eGAR"
   ],
   "author": "Civica Digital Ltd",
   "license": "MIT",
+  "homepage": "https://bitbucket.org/egar-civica/egar-notification-service#readme",
   "dependencies": {
     "aws-sdk": "^2.179.0",
     "body-parser": "^1.18.2",

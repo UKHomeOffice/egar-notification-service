@@ -7,7 +7,7 @@ The typical flow through the service (or pair of services) is:
 ```producer```: Listener -> Parser -> SQS Queue Producer -> SQS Queue
 ```consumer```: SQS Queue -> SQS Queue Consumer -> Sender
 
-An individual service instance can act as a producer, or a consumer, or both..
+An individual service instance can act as a producer, or a consumer, or both.
 
 
 The SQS Queue provides resilience for temporary service outages.
